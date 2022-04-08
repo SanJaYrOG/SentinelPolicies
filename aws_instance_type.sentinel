@@ -1,0 +1,13 @@
+import "tfrun"
+import "tfplan"
+
+workspace_name = tfrun.workspace.name
+desired_instance_type = "t2.micro"
+
+print("Checking to make sure the", workspace_name, "warkspace is using a", desired_instance_type, "instance_type")
+
+configured_instance_type = tfplan.module([]).resource.aws_instance.web[0].applied.instance_type
+
+main = rule{
+    desired_instance_type == configured_instance_type
+}
